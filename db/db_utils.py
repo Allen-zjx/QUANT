@@ -3,19 +3,20 @@ import pandas as pd
 # from db_config import engine
 
 
-class Db():
+class DB():
     def __init__(self, engine):
 
         self.engine = engine
+        self.conn = self.engine.connect()
 
-    def save_df_to_db(self, df, table_name):
-        df.to_sql(con=self.engine,
+    def save_df_to_db(self, df: pd.DataFrame, table_name: str):
+        df.to_sql(con=self.conn,
                   name=table_name,
                   if_exists='replace',
                   index=False)
 
         print(
-            f"{table_name} is successfully stored in the database: {self.engine_params['database']}"
+            f"{table_name} is successfully stored in the database"
         )
 
     def select_table_names_from_database(self):
